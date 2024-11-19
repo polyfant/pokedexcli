@@ -7,14 +7,16 @@ import (
 
 // Client -
 type Client struct {
+	cache map[string][]byte
 	httpClient http.Client
 }
 
 // NewClient -
-func NewClient(timeout time.Duration) Client {
-	return Client{
+func NewClient(cacheInterval time.Duration, retryInterval time.Duration) *Client {
+	return &Client{
+		cache: make(map[string][]byte),
 		httpClient: http.Client{
-			Timeout: timeout,
+			Timeout: retryInterval,
 		},
 	}
 }
