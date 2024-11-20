@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
-	
-	
 )
 
 // ListLocations -
@@ -15,7 +13,7 @@ func (c *Client) ListLocations(pageURL *string) (RespShallowLocations, error) {
 		url = *pageURL
 	}
 
-	if val, ok := c.cache[url]; ok {
+	if val, ok := c.cache.Get(url); ok {
 		locationsResp := RespShallowLocations{}
 		err := json.Unmarshal(val, &locationsResp)
 		if err != nil {
@@ -47,6 +45,6 @@ func (c *Client) ListLocations(pageURL *string) (RespShallowLocations, error) {
 		return RespShallowLocations{}, err
 	}
 
-	c.cache[url] = dat
+	c.cache.Add(url, dat)
 	return locationsResp, nil
 }

@@ -4,14 +4,13 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
-	
 )
 
 // GetLocation -
 func (c *Client) GetLocation(locationName string) (Location, error) {
 	url := baseURL + "/location-area/" + locationName
 
-	if val, exists := c.cache[url]; exists {
+	if val, ok := c.cache.Get(url); ok {
 		locationResp := Location{}
 		err := json.Unmarshal(val, &locationResp)
 		if err != nil {
@@ -42,7 +41,7 @@ func (c *Client) GetLocation(locationName string) (Location, error) {
 		return Location{}, err
 	}
 
-	c.cache[url] = dat
+	c.cache.Add(url, dat)
 
 	return locationResp, nil
 }
