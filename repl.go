@@ -7,6 +7,10 @@ import (
 	"strings"
 )
 
+func getStartupMessage() string {
+	return "Welcome to the Pokedex!"
+}
+
 type cliCommand struct {
 	name        string
 	description string
@@ -48,6 +52,13 @@ func getCommands(cfg *config) map[string]cliCommand {
 			description: "Attempt to catch a pokemon",
 			callback:    func(cfg *config, args []string) error {
 				return commandCatch(cfg, args...)
+			},
+		},
+		"inspect": {
+			name:        "inspect",
+			description: "Inspect a caught pokemon",
+			callback:    func(cfg *config, args []string) error {
+				return commandInspect(cfg, args...)
 			},
 		},
 	}

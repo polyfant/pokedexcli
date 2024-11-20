@@ -7,8 +7,8 @@ import (
 
 func TestNewClient(t *testing.T) {
 	client := NewClient(time.Hour, time.Hour)
-	if client == nil {
-		t.Error("Expected non-nil client")
+	if client.cache == nil {
+		t.Error("Expected cache to be initialized")
 	}
 }
 
@@ -18,8 +18,8 @@ func TestListLocations(t *testing.T) {
 	if err != nil {
 		t.Errorf("Expected no error, got %v", err)
 	}
-	if resp == nil {
-		t.Error("Expected non-nil response")
+	if len(resp.Results) == 0 {
+		t.Error("Expected at least one location")
 	}
 }
 
@@ -29,7 +29,7 @@ func TestGetLocation(t *testing.T) {
 	if err != nil {
 		t.Errorf("Expected no error, got %v", err)
 	}
-	if resp == nil {
-		t.Error("Expected non-nil response")
+	if resp.Name == "" {
+		t.Error("Expected location to have a name")
 	}
 } 

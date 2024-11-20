@@ -21,8 +21,4 @@ func TestGetCommands(t *testing.T) {
 			t.Errorf("Expected command %s to exist", cmd)
 		}
 	}
-}
-
-func getStartupMessage() string {
-	return "Welcome to the Pokemon Game!"
 } 
