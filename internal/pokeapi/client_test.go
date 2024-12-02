@@ -7,8 +7,9 @@ import (
 
 func TestNewClient(t *testing.T) {
 	client := NewClient(time.Hour, time.Hour)
-	if client.cache == nil {
-		t.Error("Expected cache to be initialized")
+	// Check if the cache is properly initialized
+	if client.cache.cache == nil {
+		t.Error("Expected cache map to be initialized")
 	}
 }
 
@@ -32,4 +33,4 @@ func TestGetLocation(t *testing.T) {
 	if resp.Name == "" {
 		t.Error("Expected location to have a name")
 	}
-} 
+}

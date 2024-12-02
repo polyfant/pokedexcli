@@ -3,6 +3,8 @@ package main
 import (
 	"errors"
 	"fmt"
+	"strings"
+	"github.com/fatih/color"
 )
 
 func commandInspect(cfg *config, args ...string) error {
@@ -16,19 +18,40 @@ func commandInspect(cfg *config, args ...string) error {
 		return fmt.Errorf("you have not caught %s yet", pokemonName)
 	}
 
-	fmt.Printf("Name: %s\n", pokemon.Name)
-	fmt.Printf("Height: %d\n", pokemon.Height)
-	fmt.Printf("Weight: %d\n", pokemon.Weight)
+	titleColor := color.New(color.FgHiYellow, color.Bold)
+	statColor := color.New(color.FgHiCyan)
 	
-	fmt.Println("\nStats:")
+	fmt.Println("╔" + strings.Repeat("═", 50) + "╗")
+	titleColor.Printf("║ %s's Data\n", strings.ToUpper(pokemon.Name))
+	fmt.Println("╠" + strings.Repeat("═", 50) + "╣")
+	
+	statColor.Printf("║ Height: %d\n", pokemon.Height)
+	statColor.Printf("║ Weight: %d\n", pokemon.Weight)
+	
+	fmt.Println("║")
+	titleColor.Println("║ Stats:")
 	for _, stat := range pokemon.Stats {
-		fmt.Printf("  -%s: %d\n", stat.Stat.Name, stat.BaseStat)
+		barLength := stat.BaseStat / 10
+		statBar := strings.Repeat("█", barLength) + strings.Repeat("░", 10-barLength)
+		statColor.Printf("║  %s: %s %d\n", 
+			padRight(stat.Stat.Name, 12),
+			statBar,
+			stat.BaseStat)
 	}
 	
-	fmt.Println("\nTypes:")
+	fmt.Println("║")
+	titleColor.Println("║ Types:")
 	for _, typeInfo := range pokemon.Types {
-		fmt.Printf("  - %s\n", typeInfo.Type.Name)
+		statColor.Printf("║  ⬢ %s\n", typeInfo.Type.Name)
 	}
-
+	
+	fmt.Println("╚" + strings.Repeat("═", 50) + "╝")
 	return nil
+}
+
+func padRight(str string, length int) string {
+	if len(str) >= length {
+		return str
+	}
+	return str + strings.Repeat(" ", length-len(str))
 }
