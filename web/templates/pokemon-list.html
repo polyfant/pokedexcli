@@ -1,0 +1,22 @@
+{{if .PokemonList}}
+    {{range .PokemonList}}
+    <div class="pokemon-card p-4"
+         hx-get="/pokemon/details?name={{.Name}}"
+         hx-target="#pokemon-details">
+        <div class="w-32 h-32 mx-auto flex items-center justify-center">
+            <span class="text-xl capitalize neon-text">{{.Name}}</span>
+        </div>
+        <h2 class="text-xl text-center mt-2 capitalize neon-text">{{.Name}}</h2>
+    </div>
+    {{end}}
+{{else}}
+    {{if .Error}}
+    <div class="col-span-full text-center text-red-400 neon-text">
+        {{.Error}}
+    </div>
+    {{else}}
+    <div class="col-span-full text-center neon-text">
+        SEARCH FOR A POKEMON ABOVE...
+    </div>
+    {{end}}
+{{end}}
